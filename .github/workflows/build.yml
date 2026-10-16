@@ -1,34 +1,37 @@
+
 name: Build SwitchCraft NX
 
 on:
-workflow_dispatch:
-push:
-branches: [main, master]
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+      - master
 
 jobs:
-build:
-runs-on: ubuntu-latest
-container:
-image: devkitpro/devkita64:latest
-steps:
-- name: Baixar código
-uses: actions/checkout@v4
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: devkitpro/devkita64:latest
+    steps:
+      - name: Baixar codigo
+        uses: actions/checkout@v4
 
-  - name: Verificar arquivos
-    run: |
-      echo "=== Arquivos do projeto ==="
-      ls -la
-      echo "=== Código-fonte ==="
-      ls -la source
-      echo "=== Makefile ==="
-      cat Makefile
+      - name: Verificar arquivos
+        run: |
+          echo "=== Arquivos do projeto ==="
+          ls -la
+          echo "=== Pasta source ==="
+          ls -la source
+          echo "=== Makefile ==="
+          cat Makefile
 
-  - name: Compilar NRO
-    run: make
+      - name: Compilar NRO
+        run: make
 
-  - name: Publicar artefato
-    uses: actions/upload-artifact@v4
-    with:
-      name: SwitchCraftNX-nro
-      path: '*.nro'
-      if-no-files-found: error
+      - name: Publicar artefato
+        uses: actions/upload-artifact@v4
+        with:
+          name: SwitchCraftNX-nro
+          path: "*.nro"
+          if-no-files-found: error
